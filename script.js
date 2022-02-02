@@ -22,15 +22,15 @@ class Game {
 
     addClickListener() {
         this._deck.getElement().addEventListener("click", (event) => {
-            event.target.innerHTML = "HELLLO!";
+            event.target.innerHTML = "TEST";
         });
     }
 }
 
 class Deck {
-    constructor(element) {
+    constructor() {
         this._cards = [];
-        this._element = element;
+        this._element = document.querySelector(".deck");
     }
 
     createDeck() {
@@ -38,10 +38,11 @@ class Deck {
         let ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
         for (let i = 0; i < suits.length; i++) {
             for (let j = 0; j < ranks.length; j++) {
-                let image = `https://deckofcardsapi.com/static/img/${suits[i]}${ranks[i]}.png`
-                this._cards.push(new Card(suits[i], ranks[j]), image)
+                let image = `https://deckofcardsapi.com/static/img/${suits[i]}${ranks[j]}.png`
+                this._cards.push(new Card(suits[i], ranks[j], image))
             }
         }
+        console.log(this._cards);
     }
 
     shuffleCards() {
@@ -80,12 +81,13 @@ class Player {
         this._inPlayCard.push(inPlayCard);
     }
 
-    // getDealtCards() {
-    //     return this._dealtCards; 
-    // }
+    getDealtCards() {
+        return this._dealtCards; 
+    }
 }
 
-const newDeck = new Deck(document.querySelector(".deck"));
+const newDeck = new Deck();
 newDeck.createDeck();
 const newGame = new Game(newDeck);
 newGame.dealCards();
+newGame.addClickListener();
