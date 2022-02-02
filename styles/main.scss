@@ -19,13 +19,14 @@ body {
     margin: 4em;
 }
 
-.deck {
+.cards {
     display: flex;
     justify-content: center;
     gap: 1em;
 }
 
-.card {
+.deck,
+.inplay {
     width: 8em;
     height: 10em;
     background-color: #ffffff;
