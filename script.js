@@ -28,14 +28,15 @@ class Deck {
     }
 
     dealCards () {
-        let dealCard = true;
+        let playerTurn = true;
         for (let i = 0; i < this._cards.length; i++) {
-            if (dealCard) {
+            if (playerTurn) {
+                console.log(playerTurn)
                 this._players["1"].setDealtCard(this._cards[i]);
-                dealCard = false;
+                playerTurn = false;
             } 
             this._players["2"].setDealtCard(this.cards[i]);
-            dealCard = true;
+            playerTurn = true;
         }
     }
 }
@@ -49,15 +50,15 @@ class Card {
 
 class Player {
     constructor() {
-        this._dealtCards = {};
-        this._inPlayCard = {};
+        this._dealtCards = [];
+        this._inPlayCard = [];
     }
 
     setDealtCard(dealtCard) {
         this._dealtCards.push(dealtCard);
     }
 
-    setInPlayCard(inPlayCard) {
+    setinPlayCard(inPlayCard) {
         this._inPlayCard.push(inPlayCard);
     }
 
@@ -68,7 +69,8 @@ class Player {
 
 const newDeck = new Deck;
 newDeck.createDeck();
-newDeck.shuffleCards();
-newDeck.dealCards();
 console.log(newDeck);
-console.log(newDeck.getDealtCards())
+newDeck.shuffleCards();
+console.log(newDeck);
+newDeck.dealCards();
+
