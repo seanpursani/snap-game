@@ -1,24 +1,45 @@
 class Game {
     constructor(deck) {
-        this._deck = deck;
         this._players = {
-            1: new Player(),
-            2: new Player()
+            "1": new Player(),
+            "2": new Player() }
+        this._deck = deck;
+    }
+
+    dealCards () {
+        const cardDeck = this._deck.getCards();
+        let isPlayerTurn = true;
+        for (let i = 0; i < cardDeck.length; i++) {
+            if (isPlayerTurn) {
+                this._players["1"].setDealtCard(cardDeck[i]);
+                isPlayerTurn = false;
+            } else {
+                this._players["2"].setDealtCard(cardDeck[i]);
+                isPlayerTurn = true;
+            }
         }
+    }
+
+    addClickListener() {
+        this._deck.getElement().addEventListener("click", (event) => {
+            event.target.innerHTML = "HELLLO!";
+        });
     }
 }
 
 class Deck {
-    constructor() {
+    constructor(element) {
         this._cards = [];
+        this._element = element;
     }
 
     createDeck() {
-        let suits = ['clubs', 'spades', 'hearts', 'diamonds'];
-        let ranks = ['ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king']
+        let suits = ['C', 'S', 'H', 'D'];
+        let ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
         for (let i = 0; i < suits.length; i++) {
             for (let j = 0; j < ranks.length; j++) {
-                this._cards.push(new Card(suits[i], ranks[j]))
+                let image = `https://deckofcardsapi.com/static/img/${suits[i]}${ranks[i]}.png`
+                this._cards.push(new Card(suits[i], ranks[j]), image)
             }
         }
     }
@@ -27,24 +48,21 @@ class Deck {
         this._cards.sort((a, b) => 0.5 - Math.random());
     }
 
-    dealCards () {
-        let playerTurn = true;
-        for (let i = 0; i < this._cards.length; i++) {
-            if (playerTurn) {
-                console.log(playerTurn)
-                this._players["1"].setDealtCard(this._cards[i]);
-                playerTurn = false;
-            } 
-            this._players["2"].setDealtCard(this.cards[i]);
-            playerTurn = true;
-        }
+    getElement() {
+        return this._element;
     }
+
+    getCards() {
+        return this._cards;
+    }
+
 }
 
 class Card {
-    constructor(suit, rank) {
+    constructor(suit, rank, image) {
         this._suit = suit;
         this._rank = rank;
+        this._image = image;
     }
 }
 
@@ -62,15 +80,12 @@ class Player {
         this._inPlayCard.push(inPlayCard);
     }
 
-    getDealtCards() {
-        return this._dealtCards; 
-    }
+    // getDealtCards() {
+    //     return this._dealtCards; 
+    // }
 }
 
-const newDeck = new Deck;
+const newDeck = new Deck(document.querySelector(".deck"));
 newDeck.createDeck();
-console.log(newDeck);
-newDeck.shuffleCards();
-console.log(newDeck);
-newDeck.dealCards();
-
+const newGame = new Game(newDeck);
+newGame.dealCards();
