@@ -1,10 +1,24 @@
 class Game {
     constructor(deck) {
-        this._deck = deck;
         this._players = {
-            1: new Player(),
-            2: new Player()
+            "1": new Player(),
+            "2": new Player() }
+        this._deck = deck;
+    }
+
+    dealCards () {
+        const cardDeck = this._deck.getDeck();
+        let isPlayerTurn = true;
+        for (let i = 0; i < cardDeck.length; i++) {
+            if (isPlayerTurn) {
+                this._players["1"].setDealtCard(cardDeck[i]);
+                isPlayerTurn = false;
+            } else {
+                this._players["2"].setDealtCard(cardDeck[i]);
+                isPlayerTurn = true;
+            }
         }
+        console.log(this._players["1"].getDealtCards());
     }
 }
 
@@ -27,18 +41,10 @@ class Deck {
         this._cards.sort((a, b) => 0.5 - Math.random());
     }
 
-    dealCards () {
-        let playerTurn = true;
-        for (let i = 0; i < this._cards.length; i++) {
-            if (playerTurn) {
-                console.log(playerTurn)
-                this._players["1"].setDealtCard(this._cards[i]);
-                playerTurn = false;
-            } 
-            this._players["2"].setDealtCard(this.cards[i]);
-            playerTurn = true;
-        }
+    getDeck() {
+        return this._cards;
     }
+
 }
 
 class Card {
@@ -70,7 +76,5 @@ class Player {
 const newDeck = new Deck;
 newDeck.createDeck();
 console.log(newDeck);
-newDeck.shuffleCards();
-console.log(newDeck);
-newDeck.dealCards();
-
+const newGame = new Game(newDeck);
+newGame.dealCards();
