@@ -23,6 +23,7 @@ body {
 
 .header {
   margin: 4em;
+  letter-spacing: 0.5em;
 }
 
 .cards {
@@ -44,5 +45,9 @@ body {
           box-shadow: 0 0.0625em 0.125em rgba(0, 0, 0, 0.15);
   border-radius: 0.25em;
   margin: 1em;
+}
+
+.deck {
+  background-image: url("http://www.brainjar.com/css/cards/graphics/cardback.gif");
 }
 /*# sourceMappingURL=main.css.map */
