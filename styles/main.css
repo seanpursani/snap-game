@@ -23,6 +23,7 @@ body {
 
 .header {
   margin: 4em;
+  letter-spacing: 0.5em;
 }
 
 .cards {
@@ -44,5 +45,24 @@ body {
           box-shadow: 0 0.0625em 0.125em rgba(0, 0, 0, 0.15);
   border-radius: 0.25em;
   margin: 1em;
+}
+
+.deck {
+  background-image: url("http://www.brainjar.com/css/cards/graphics/cardback.gif");
+}
+
+.points {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-bottom: 1em;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 10vh;
+  font-size: 1.5em;
 }
 /*# sourceMappingURL=main.css.map */

@@ -4,33 +4,44 @@ class Game {
             "1": new Player(),
             "2": new Player() }
         this._deck = deck;
+        this._element = document.querySelectorAll("deck");
+        console.log(this.element);
+        this.addClickListener()
+        this._isPlayerTurn = "true";
     }
 
     dealCards () {
-        const cardDeck = this._deck.getCards();
-        let isPlayerTurn = true;
+        const cardDeck = this._deck.cards;
         for (let i = 0; i < cardDeck.length; i++) {
-            if (isPlayerTurn) {
+            if (this._isPlayerTurn) {
                 this._players["1"].setDealtCard(cardDeck[i]);
-                isPlayerTurn = false;
+                this._isPlayerTurn = false;
             } else {
                 this._players["2"].setDealtCard(cardDeck[i]);
-                isPlayerTurn = true;
+                this._isPlayerTurn = true;
             }
         }
+        console.log(this._players["1"].getDealtCards());
     }
 
+    // Loop throguh to add event listeners
     addClickListener() {
-        this._deck.getElement().addEventListener("click", (event) => {
+        this._element.addEventListener("click", (event) => {
             event.target.innerHTML = "TEST";
+            console.log("TEST");
         });
+    }
+
+    turnOverCard() {
+        if (this._isPlayerTurn === true) {
+            i
+        }
     }
 }
 
 class Deck {
     constructor() {
         this._cards = [];
-        this._element = document.querySelector(".deck");
     }
 
     createDeck() {
@@ -49,11 +60,11 @@ class Deck {
         this._cards.sort((a, b) => 0.5 - Math.random());
     }
 
-    getElement() {
+    get element() {
         return this._element;
     }
 
-    getCards() {
+    get cards() {
         return this._cards;
     }
 
@@ -71,13 +82,14 @@ class Player {
     constructor() {
         this._dealtCards = [];
         this._inPlayCard = [];
+        this._pointsTotal = 0;
     }
 
     setDealtCard(dealtCard) {
         this._dealtCards.push(dealtCard);
     }
 
-    setinPlayCard(inPlayCard) {
+    setInPlayCard(inPlayCard) {
         this._inPlayCard.push(inPlayCard);
     }
 
@@ -88,6 +100,6 @@ class Player {
 
 const newDeck = new Deck();
 newDeck.createDeck();
+newDeck.shuffleCards();
 const newGame = new Game(newDeck);
 newGame.dealCards();
-newGame.addClickListener();
