@@ -50,4 +50,19 @@ body {
 .deck {
   background-image: url("http://www.brainjar.com/css/cards/graphics/cardback.gif");
 }
+
+.points {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-bottom: 1em;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 10vh;
+  font-size: 1.5em;
+}
 /*# sourceMappingURL=main.css.map */

@@ -4,10 +4,10 @@ class Game {
             "1": new Player(),
             "2": new Player() }
         this._deck = deck;
-        this.element = document.querySelectorAll("cards");
+        this._element = document.querySelectorAll("deck");
         console.log(this.element);
         this.addClickListener()
-        this._isPlayerTurn = true;
+        this._isPlayerTurn = "true";
     }
 
     dealCards () {
@@ -24,6 +24,7 @@ class Game {
         console.log(this._players["1"].getDealtCards());
     }
 
+    // Loop throguh to add event listeners
     addClickListener() {
         this._element.addEventListener("click", (event) => {
             event.target.innerHTML = "TEST";
@@ -32,7 +33,9 @@ class Game {
     }
 
     turnOverCard() {
-        if
+        if (this._isPlayerTurn === true) {
+            i
+        }
     }
 }
 
@@ -79,6 +82,7 @@ class Player {
     constructor() {
         this._dealtCards = [];
         this._inPlayCard = [];
+        this._pointsTotal = 0;
     }
 
     setDealtCard(dealtCard) {
