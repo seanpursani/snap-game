@@ -4,7 +4,6 @@ class Game {
             "1": new Player(),
             "2": new Player() }
         this._deck = deck;
-        this.playersDeck = document.getElementsByClassName("card");
         this._isPlayerTurn = "true";
     }
 
@@ -28,13 +27,19 @@ class Game {
                 this._isPlayerTurn = true;
             }
         }
-        let marginNum = 0.05;
-        for (let i = 0; i < this.playersDeck.length; i++) {
-            this.playersDeck[i].style.margin = `${marginNum}em`;
-            marginNum += 0.05;
-        }
+        this.createStackEffect("deck1", 0.05, 0.03);
+        this.createStackEffect("deck2", 0.05, 0.03);
     }
 
+    createStackEffect (playerDeckIdName, startMargin, addMarginBy) {
+        const playersDeck = document.getElementById(playerDeckIdName).getElementsByClassName("card");
+        console.log(playersDeck);
+        let marginNum = startMargin;
+        for (let i = 0; i < playersDeck.length; i++) {
+            playersDeck[i].style.margin = `${marginNum}em`;
+            marginNum += addMarginBy;
+        }
+    }
 
     // Loop throguh to add event listeners and do logic
     addClickListener() {
