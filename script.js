@@ -4,10 +4,16 @@ class Game {
             "1": new Player(),
             "2": new Player() }
         this._deck = deck;
-        this._element = document.querySelectorAll("deck");
-        console.log(this.element);
-        this.addClickListener()
+        this.playerDeck = document.getElementsByClassName("deck")
         this._isPlayerTurn = "true";
+    }
+
+    createCardElement (card, parentContainer) {
+        const cardToGoInDeck = document.createElement("div")
+        cardToGoInDeck.id= 'card'; 
+        cardToGoInDeck.className = `${card.suit}${card.rank}`;
+        console.log(cardToGoInDeck);
+        document.getElementById(parentContainer).appendChild(cardToGoInDeck);
     }
 
     dealCards () {
@@ -15,27 +21,25 @@ class Game {
         for (let i = 0; i < cardDeck.length; i++) {
             if (this._isPlayerTurn) {
                 this._players["1"].setDealtCard(cardDeck[i]);
+                this.createCardElement(cardDeck[i], "deck1");
                 this._isPlayerTurn = false;
             } else {
                 this._players["2"].setDealtCard(cardDeck[i]);
+                this.createCardElement(cardDeck[i], "deck2");
                 this._isPlayerTurn = true;
             }
         }
         console.log(this._players["1"].getDealtCards());
+        console.log(this._players["2"].getDealtCards());
     }
 
-    // Loop throguh to add event listeners
+    // Loop throguh to add event listeners and do logic
     addClickListener() {
-        this._element.addEventListener("click", (event) => {
-            event.target.innerHTML = "TEST";
-            console.log("TEST");
-        });
-    }
+        this._playersDeck.forEach(card => {
+            card.addEventListener("click", (event) => {
 
-    turnOverCard() {
-        if (this._isPlayerTurn === true) {
-            i
-        }
+            })
+        });
     }
 }
 
@@ -60,14 +64,9 @@ class Deck {
         this._cards.sort((a, b) => 0.5 - Math.random());
     }
 
-    get element() {
-        return this._element;
-    }
-
     get cards() {
         return this._cards;
     }
-
 }
 
 class Card {
@@ -75,6 +74,18 @@ class Card {
         this._suit = suit;
         this._rank = rank;
         this._image = image;
+    }
+
+    get suit() {
+        return this._suit;
+    }
+
+    get rank() {
+        return this._rank;
+    }
+
+    get image() {
+        return this._image;
     }
 }
 
