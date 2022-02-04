@@ -5,22 +5,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="#">
-    <script src="./script.js"></script>
+    <script src="./script.js" async defer></script>
     <link rel="stylesheet" href="./styles/main.css">
     <title>Let's Play Snap!</title>
 </head>
-<body class="game">
-    <div class="points"></div>
+<body>
+    <div class="points">Test</div>
     <div class="cards">
-        <div class="deck"></div>
-        <div class="inplay"></div>
+        <div class="deck" id="deck1">
+        </div>
+        <div id="inplay1"></div>
     </div>
     <div class="header">
         <h1>Click space to 'Snap!'</h1>
     </div>
     <div class="cards">
-        <div class="inplay"></div>
-        <div class="deck"></div>
+        <div id="inplay2"></div>
+        <div class="deck" id="deck2"></div>
     </div>
 </body>
 </html>
