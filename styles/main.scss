@@ -62,3 +62,10 @@ body {
     box-shadow: 0 0.0625em 0.125em rgba(0, 0, 0, 0.15);
     border-radius: 0.25em;
 }
+
+.inplaycard {
+    position: absolute;
+    background-size: cover;
+    width: 8em;
+    height: 10em;
+}
