@@ -48,7 +48,6 @@ class Game {
         const playerDeck = [...this._PlayerOneDeck]
         playerDeck.forEach(card => {
             card.addEventListener("click", (event) => {
-                console.log(playerDeck);
                 const cardToPlay = document.createElement("div");
                 const cardInfo = card.className.substring(0,2);
                 const cardDeck = this._deck.cards; // MAKE DRY
@@ -58,9 +57,7 @@ class Game {
                 cardToPlay.classList.add("inplaycard");
                 document.getElementById("inplay1").appendChild(cardToPlay);
                 playerDeck.pop();
-                console.log(playerDeck);
                 const removeCard = document.getElementsByClassName(cardInfo);
-                console.log(removeCard);
                 removeCard[0].remove();
             })
         });
@@ -74,7 +71,7 @@ class Deck {
 
     createDeck() {
         let suits = ['C', 'S', 'H', 'D'];
-        let ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
+        let ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'J', 'Q', 'K']
         for (let i = 0; i < suits.length; i++) {
             for (let j = 0; j < ranks.length; j++) {
                 let image = `https://deckofcardsapi.com/static/img/${ranks[j]}${suits[i]}.png`
