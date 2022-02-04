@@ -56,4 +56,9 @@ body {
 .card {
     position: absolute;
     background-image: url("http://www.brainjar.com/css/cards/graphics/cardback.gif");
+    width: 8em;
+    height: 10em;
+    background-color: #ffffff;
+    box-shadow: 0 0.0625em 0.125em rgba(0, 0, 0, 0.15);
+    border-radius: 0.25em;
 }

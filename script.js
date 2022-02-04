@@ -4,15 +4,14 @@ class Game {
             "1": new Player(),
             "2": new Player() }
         this._deck = deck;
-        this.playerDeck = document.getElementsByClassName("deck")
+        this.playersDeck = document.getElementsByClassName("card");
         this._isPlayerTurn = "true";
     }
 
     createCardElement (card, parentContainer) {
         const cardToGoInDeck = document.createElement("div")
-        cardToGoInDeck.id= 'card'; 
         cardToGoInDeck.className = `${card.suit}${card.rank}`;
-        console.log(cardToGoInDeck);
+        cardToGoInDeck.classList.add("card");
         document.getElementById(parentContainer).appendChild(cardToGoInDeck);
     }
 
@@ -29,15 +28,19 @@ class Game {
                 this._isPlayerTurn = true;
             }
         }
-        console.log(this._players["1"].getDealtCards());
-        console.log(this._players["2"].getDealtCards());
+        let marginNum = 0.05;
+        for (let i = 0; i < this.playersDeck.length; i++) {
+            this.playersDeck[i].style.margin = `${marginNum}em`;
+            marginNum += 0.05;
+        }
     }
+
 
     // Loop throguh to add event listeners and do logic
     addClickListener() {
         this._playersDeck.forEach(card => {
             card.addEventListener("click", (event) => {
-
+                card.style
             })
         });
     }
