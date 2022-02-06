@@ -25,7 +25,7 @@ class Game {
         this.createStackEffectOnDealtCards(this._playerOneDeck, 0.03);
         this.createStackEffectOnDealtCards(this._playerTwoDeck, 0.03);
         this.addClickListenerToEachDealtCard();
-        this.addSnapListener(this._players, this._playerOneDeck, this._playerTwoDeck);
+        this.addSnapListener(this._players);
     }
 
     // Create and append a <div> element based on the dealt card
@@ -48,8 +48,8 @@ class Game {
 
     // Loop through each card in each players deck to add an event listener 
     addClickListenerToEachDealtCard() {
-        const playerOneDeck = [...this._playerOneDeck]
-        const playerTwoDeck = [...this._playerTwoDeck]
+        const playerOneDeck = [...this._playerOneDeck];
+        const playerTwoDeck = [...this._playerTwoDeck];
         playerOneDeck.forEach(card => {
             card.addEventListener("click", (event) => {
                 this.putDownInPlayCard(card, playerOneDeck, "inplay1");
@@ -79,7 +79,7 @@ class Game {
         removeCard[0].remove(); // [0] removes the card from players deck, but NOT from the in-play deck
     }
 
-    addSnapListener(players, playerOneDeck, PlayerTwoDeck) {
+    addSnapListener(players) {
         document.addEventListener("keydown", function (event) {
             let score = this.getElementById("score");
             const inPlayDeckPlayerOne = document.getElementById("inplay1").getElementsByClassName("inplaycard");
@@ -87,7 +87,12 @@ class Game {
             if (event.key === 'l') {
                 if ((inPlayDeckPlayerOne[inPlayDeckPlayerOne.length-1].className.substring(0,1) === inPlayDeckPlayerTwo[inPlayDeckPlayerTwo.length-1].className.substring(0,1))) {
                     players["1"].awardOrTakePoint(true);
-                    console.log(playerOneDeck);
+                    const inPlayDeckPlayerTwoArr = [...inPlayDeckPlayerTwo];
+                    for (let i = 0; i < inPlayDeckPlayerTwoArr.length; i++) {
+                        inPlayDeckPlayerTwoArr[i].classList.replace("inplaycard", "card");
+                        inPlayDeckPlayerTwoArr[i].removeAttribute("style");
+                        document.getElementById("deck1").prepend(inPlayDeckPlayerTwoArr[i]);
+                    }
                 } else {
                     players["1"].awardOrTakePoint(false);
                 }
@@ -95,6 +100,12 @@ class Game {
             if (event.key === 'a') {
                 if ((inPlayDeckPlayerOne[inPlayDeckPlayerOne.length-1].className.substring(0,1) === inPlayDeckPlayerTwo[inPlayDeckPlayerTwo.length-1].className.substring(0,1))) {
                     players["2"].awardOrTakePoint(true);
+                    const inPlayDeckPlayerOneArr = [...inPlayDeckPlayerOne];
+                    for (let i = 0; i < inPlayDeckPlayerOneArr.length; i++) {
+                        inPlayDeckPlayerOneArr[i].classList.replace("inplaycard", "card");
+                        inPlayDeckPlayerOneArr[i].removeAttribute("style");
+                        document.getElementById("deck2").prepend(inPlayDeckPlayerOneArr[i]);
+                    }
                 } else {
                     players["2"].awardOrTakePoint(false);
                 }
