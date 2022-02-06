@@ -33,7 +33,8 @@ body {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  gap: 2em;
+  gap: 1.5em;
+  margin-bottom: 4em;
 }
 
 #deck1,
@@ -41,7 +42,7 @@ body {
 #inplay1,
 #inplay2 {
   position: relative;
-  width: 10em;
+  width: 8em;
   height: 12em;
   background-color: #eee;
 }
@@ -64,8 +65,8 @@ body {
 .card {
   position: absolute;
   background-image: url("http://www.brainjar.com/css/cards/graphics/cardback.gif");
-  width: 10em;
-  height: 12em;
+  width: 7.5em;
+  height: 10em;
   background-color: #eee;
   -webkit-box-shadow: 0 0.0625em 0.125em rgba(0, 0, 0, 0.15);
           box-shadow: 0 0.0625em 0.125em rgba(0, 0, 0, 0.15);
@@ -74,10 +75,9 @@ body {
 
 .inplaycard {
   position: absolute;
-  -o-object-fit: cover;
-     object-fit: cover;
-  width: 10em;
-  height: 12em;
-  display: block;
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 7.5em;
+  height: 10em;
 }
 /*# sourceMappingURL=main.css.map */

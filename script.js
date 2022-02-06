@@ -3,13 +3,15 @@ class Game {
         this._players = {
             "1": new Player(),
             "2": new Player() }
-        this._deck = deck;
         this._PlayerOneDeck = document.getElementById("deck1").getElementsByClassName("card");
         this._PlayerTwoDeck = document.getElementById("deck2").getElementsByClassName("card");
         this._isPlayerTurn = "true";
+        this._deck = deck;
+        this.cardDeck = this._deck.cards;
     }
 
-    createCardElement (card, parentContainer) {
+
+    createDealtCardHTMLElem (card, parentContainer) {
         const cardToGoInDeck = document.createElement("div")
         cardToGoInDeck.className = `${card.rank}${card.suit}`;
         cardToGoInDeck.classList.add("card");
@@ -17,24 +19,23 @@ class Game {
     }
 
     dealCards () {
-        const cardDeck = this._deck.cards;
-        for (let i = 0; i < cardDeck.length; i++) {
+        for (let i = 0; i < this.cardDeck.length; i++) {
             if (this._isPlayerTurn) {
-                this._players["1"].setDealtCard(cardDeck[i]);
-                this.createCardElement(cardDeck[i], "deck1");
+                this._players["1"].setDealtCard(this.cardDeck[i]);
+                this.createDealtCardHTMLElem(this.cardDeck[i], "deck1");
                 this._isPlayerTurn = false;
             } else {
-                this._players["2"].setDealtCard(cardDeck[i]);
-                this.createCardElement(cardDeck[i], "deck2");
+                this._players["2"].setDealtCard(this.cardDeck[i]);
+                this.createDealtCardHTMLElem(this.cardDeck[i], "deck2");
                 this._isPlayerTurn = true;
             }
         }
         this.createStackEffect(this._PlayerOneDeck, 0.03);
         this.createStackEffect(this._PlayerTwoDeck, 0.03);
-        this.addClickListener()
+        this.addClickListener();
     }
 
-    createStackEffect (playerDeckIdName, addMarginBy) {
+    createStackEffect(playerDeckIdName, addMarginBy) {
         const playersDeck = playerDeckIdName;
         let marginNum = 0.05;
         for (let i = 0; i < playersDeck.length; i++) {
@@ -43,22 +44,34 @@ class Game {
         }
     }
 
-    // Loop throguh to add event listeners and do logic
+    // Loop through each card in the players deck to add event listeners 
     addClickListener() {
         const playerDeck = [...this._PlayerOneDeck]
         playerDeck.forEach(card => {
             card.addEventListener("click", (event) => {
+
+                // finds the 'clicked' card from the entire deck of cards
+                const cardSuitAndRank = card.className.substring(0,2);
+                const cardFromDeck = this.cardDeck.filter(card => card.image.includes(cardSuitAndRank));
+
+                // 'creates' and 'puts down' the top card from a players deck 
                 const cardToPlay = document.createElement("div");
-                const cardInfo = card.className.substring(0,2);
-                const cardDeck = this._deck.cards; // MAKE DRY
-                const targetCard = cardDeck.filter(card => card.image.includes(cardInfo));
-                cardToPlay.style.backgroundImage = `url(${targetCard[0].image})`;
-                cardToPlay.className = `${targetCard[0].rank}${targetCard[0].suit}`;
+                cardToPlay.style.backgroundImage = `url(${cardFromDeck[0].image})`;
+                cardToPlay.className = `${cardFromDeck[0].rank}${cardFromDeck[0].suit}`;
                 cardToPlay.classList.add("inplaycard");
                 document.getElementById("inplay1").appendChild(cardToPlay);
+                
+                // // append to the correct in-play deck 
+                // if (this._PlayerOneDeck.includes(cardFromDeck)) {
+                //     document.getElementById("inplay1").appendChild(cardToPlay);
+                // } else {
+                //     document.getElementById("inplay1").appendChild(cardToPlay);
+                // }
+                
+                // removes the card from the players deck array, and its HTML element
                 playerDeck.pop();
-                const removeCard = document.getElementsByClassName(cardInfo);
-                removeCard[0].remove();
+                const removeCard = document.getElementsByClassName(cardSuitAndRank);
+                removeCard[0].remove(); // removes from players deck, NOT the in-play deck
             })
         });
     }
