@@ -25,7 +25,7 @@ class Game {
         this.createStackEffectOnDealtCards(this._playerOneDeck, 0.03);
         this.createStackEffectOnDealtCards(this._playerTwoDeck, 0.03);
         this.addClickListenerToEachDealtCard();
-        this.addSnapListener(this._players);
+        this.addSnapListener(this._players, this._playerOneDeck, this._playerTwoDeck);
     }
 
     // Create and append a <div> element based on the dealt card
@@ -79,24 +79,24 @@ class Game {
         removeCard[0].remove(); // [0] removes the card from players deck, but NOT from the in-play deck
     }
 
-    addSnapListener(players) {
+    addSnapListener(players, playerOneDeck, PlayerTwoDeck) {
         document.addEventListener("keydown", function (event) {
             let score = this.getElementById("score");
-            const topCardPlayerOne = [...document.getElementById("inplay1").getElementsByClassName("inplaycard")].pop();
-            const topCardPlayerTwo = [...document.getElementById("inplay2").getElementsByClassName("inplaycard")].pop();
+            const inPlayDeckPlayerOne = document.getElementById("inplay1").getElementsByClassName("inplaycard");
+            const inPlayDeckPlayerTwo = document.getElementById("inplay2").getElementsByClassName("inplaycard");
             if (event.key === 'l') {
-                if ((topCardPlayerOne.className.substring(0,1) === topCardPlayerTwo.className.substring(0,1))) {
+                if ((inPlayDeckPlayerOne[inPlayDeckPlayerOne.length-1].className.substring(0,1) === inPlayDeckPlayerTwo[inPlayDeckPlayerTwo.length-1].className.substring(0,1))) {
                     players["1"].awardOrTakePoint(true);
+                    console.log(playerOneDeck);
                 } else {
                     players["1"].awardOrTakePoint(false);
                 }
             }
             if (event.key === 'a') {
-                if ((topCardPlayerOne.className.substring(0,1) === topCardPlayerTwo.className.substring(0,1))) {
+                if ((inPlayDeckPlayerOne[inPlayDeckPlayerOne.length-1].className.substring(0,1) === inPlayDeckPlayerTwo[inPlayDeckPlayerTwo.length-1].className.substring(0,1))) {
                     players["2"].awardOrTakePoint(true);
                 } else {
                     players["2"].awardOrTakePoint(false);
-    
                 }
             }
             score.innerHTML = `Player 1: ${players["1"].pointsTotal} | ${players["2"].pointsTotal}: Player 2`
