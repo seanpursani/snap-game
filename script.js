@@ -3,37 +3,40 @@ class Game {
         this._players = {
             "1": new Player(),
             "2": new Player() }
-        this._PlayerOneDeck = document.getElementById("deck1").getElementsByClassName("card");
-        this._PlayerTwoDeck = document.getElementById("deck2").getElementsByClassName("card");
+        this._deck = deck; this.cardDeck = this._deck.cards;
+        this._playerOneDeck = document.getElementById("deck1").getElementsByClassName("card");
+        this._playerTwoDeck = document.getElementById("deck2").getElementsByClassName("card");
         this._isPlayerTurn = "true";
-        this._deck = deck;
-        this.cardDeck = this._deck.cards;
     }
 
-    dealCards () {
+    //Deals Card --> Creates 3d Stack Effect --> Add Click Listener to each Card --> Listen for "Snap"!
+    startGame () {
         for (let i = 0; i < this.cardDeck.length; i++) {
             if (this._isPlayerTurn) {
-                this._players["1"].setDealtCard(this.cardDeck[i]);
+                //this._players["1"].setDealtCard(this.cardDeck[i]);
                 this.createDealtCardHTMLElem(this.cardDeck[i], "deck1");
                 this._isPlayerTurn = false;
             } else {
-                this._players["2"].setDealtCard(this.cardDeck[i]);
+                //this._players["2"].setDealtCard(this.cardDeck[i]);
                 this.createDealtCardHTMLElem(this.cardDeck[i], "deck2");
                 this._isPlayerTurn = true;
             }
         }
-        this.createStackEffectOnDealtCards(this._PlayerOneDeck, 0.03);
-        this.createStackEffectOnDealtCards(this._PlayerTwoDeck, 0.03);
+        this.createStackEffectOnDealtCards(this._playerOneDeck, 0.03);
+        this.createStackEffectOnDealtCards(this._playerTwoDeck, 0.03);
         this.addClickListenerToEachDealtCard();
+        this.addSnapListener();
     }
 
-    createDealtCardHTMLElem (card, pile) {
+    // Create and append a <div> element based on the dealt card
+    createDealtCardHTMLElem (card, playerDeck) {
         const cardToGoInDeck = document.createElement("div")
         cardToGoInDeck.className = `${card.rank}${card.suit}`;
         cardToGoInDeck.classList.add("card");
-        document.getElementById(pile).appendChild(cardToGoInDeck);
+        document.getElementById(playerDeck).appendChild(cardToGoInDeck);
     }
 
+    // Add a 3D effect on the card deck by slightly incrementing each cards margin
     createStackEffectOnDealtCards(playerDeckIdName, addMarginBy) {
         const playersDeck = playerDeckIdName;
         let marginNum = 0.05;
@@ -43,10 +46,10 @@ class Game {
         }
     }
 
-    // Loop through each card in the players deck to add event listeners 
+    // Loop through each card in each players deck to add an event listener 
     addClickListenerToEachDealtCard() {
-        const playerOneDeck = [...this._PlayerOneDeck]
-        const playerTwoDeck = [...this._PlayerTwoDeck]
+        const playerOneDeck = [...this._playerOneDeck]
+        const playerTwoDeck = [...this._playerTwoDeck]
         playerOneDeck.forEach(card => {
             card.addEventListener("click", (event) => {
                 this.putDownInPlayCard(card, playerOneDeck, "inplay1");
@@ -57,27 +60,46 @@ class Game {
                 this.putDownInPlayCard(card, playerTwoDeck, "inplay2");
             })   
         });
-
     }
 
+    // Places the top card from the players deck onto the inplay area 
     putDownInPlayCard (card, playerDeck, playerInPlayDeck) {
         // finds the 'clicked' card from the entire deck of cards
-        const cardSuitAndRank = card.className.substring(0,2);
-        console.log(cardSuitAndRank);
+        const cardSuitAndRank = card.className.substring(0,2); // e.g AC - Ace of Clubs
         const cardFromDeck = this.cardDeck.filter(card => card.image.includes(cardSuitAndRank));
-        console.log(cardFromDeck);
-        // 'creates' and 'puts down' the top card from a players deck 
+        // 'creates' and 'puts down' the top card from a players deck into the inplay area
         const cardToPlay = document.createElement("div");
         cardToPlay.style.backgroundImage = `url(${cardFromDeck[0].image})`;
         cardToPlay.className = `${cardFromDeck[0].rank}${cardFromDeck[0].suit}`;
         cardToPlay.classList.add("inplaycard");
-        console.log(cardToPlay);
         document.getElementById(playerInPlayDeck).appendChild(cardToPlay);
-        
-        // removes the card from the players deck array, and removes its HTML element
+        // removes the card from the players deck, and removes its associated HTML element
         playerDeck.pop();
         const removeCard = document.getElementsByClassName(cardSuitAndRank);
-        removeCard[0].remove(); // removes from players deck, NOT the in-play deck
+        removeCard[0].remove(); // [0] removes the card from players deck, but NOT from the in-play deck
+    }
+
+    addSnapListener() {
+        document.addEventListener("keydown", function (event) {
+            const topCardPlayerOne = [...document.getElementById("inplay1").getElementsByClassName("inplaycard")].pop();
+            const topCardPlayerTwo = [...document.getElementById("inplay2").getElementsByClassName("inplaycard")].pop();
+            if (event.key === 'l') {
+                if ((topCardPlayerOne.className.substring(0,1) === topCardPlayerTwo.className.substring(0,1))) {
+                    this._players["1"].giveOrTakePoint(true);
+                    console.log(this._players["1"].pointsTotal);
+                } else {
+                    this._players["1"].giveOrTakePoint(false);
+                    console.log(this._players["1"].pointsTotal);
+                }
+            }
+            if (event.key === 'a') {
+                if ((topCardPlayerOne.className.substring(0,1) === topCardPlayerTwo.className.substring(0,1))) {
+                    this._players["2"].giveOrTakePoint(true);
+                } else {
+                    this._players["2"].giveOrTakePoint(false);
+                }
+            }
+        })
     }
 }
 
@@ -133,17 +155,21 @@ class Player {
         this._pointsTotal = 0;
     }
 
+    giveOrTakePoint(isValid) {
+        (isValid) ? this._pointsTotal++ : this._pointsTotal--;
+    }
+
+    get pointsTotal() {
+        return this._pointsTotal;
+    }
+
     setDealtCard(dealtCard) {
         this._dealtCards.push(dealtCard);
     }
 
-    setInPlayCard(inPlayCard) {
-        this._inPlayCard.push(inPlayCard);
-    }
-
-    getDealtCards() {
-        return this._dealtCards; 
-    }
+    // setInPlayCard(inPlayCard) {
+    //     this._inPlayCard.push(inPlayCard);
+    // }
 
 }
 
@@ -151,4 +177,4 @@ const newDeck = new Deck();
 newDeck.createDeck();
 newDeck.shuffleCards();
 const newGame = new Game(newDeck);
-newGame.dealCards();
+newGame.startGame();
