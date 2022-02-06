@@ -25,7 +25,7 @@ class Game {
         this.createStackEffectOnDealtCards(this._playerOneDeck, 0.03);
         this.createStackEffectOnDealtCards(this._playerTwoDeck, 0.03);
         this.addClickListenerToEachDealtCard();
-        this.addSnapListener();
+        this.addSnapListener(this._players);
     }
 
     // Create and append a <div> element based on the dealt card
@@ -79,26 +79,27 @@ class Game {
         removeCard[0].remove(); // [0] removes the card from players deck, but NOT from the in-play deck
     }
 
-    addSnapListener() {
+    addSnapListener(players) {
         document.addEventListener("keydown", function (event) {
+            let score = this.getElementById("score");
             const topCardPlayerOne = [...document.getElementById("inplay1").getElementsByClassName("inplaycard")].pop();
             const topCardPlayerTwo = [...document.getElementById("inplay2").getElementsByClassName("inplaycard")].pop();
             if (event.key === 'l') {
                 if ((topCardPlayerOne.className.substring(0,1) === topCardPlayerTwo.className.substring(0,1))) {
-                    this._players["1"].giveOrTakePoint(true);
-                    console.log(this._players["1"].pointsTotal);
+                    players["1"].awardOrTakePoint(true);
                 } else {
-                    this._players["1"].giveOrTakePoint(false);
-                    console.log(this._players["1"].pointsTotal);
+                    players["1"].awardOrTakePoint(false);
                 }
             }
             if (event.key === 'a') {
                 if ((topCardPlayerOne.className.substring(0,1) === topCardPlayerTwo.className.substring(0,1))) {
-                    this._players["2"].giveOrTakePoint(true);
+                    players["2"].awardOrTakePoint(true);
                 } else {
-                    this._players["2"].giveOrTakePoint(false);
+                    players["2"].awardOrTakePoint(false);
+    
                 }
             }
+            score.innerHTML = `Player 1: ${players["1"].pointsTotal} | ${players["2"].pointsTotal}: Player 2`
         })
     }
 }
@@ -150,27 +151,16 @@ class Card {
 
 class Player {
     constructor() {
-        this._dealtCards = [];
-        this._inPlayCard = [];
         this._pointsTotal = 0;
     }
 
-    giveOrTakePoint(isValid) {
+    awardOrTakePoint(isValid) {
         (isValid) ? this._pointsTotal++ : this._pointsTotal--;
     }
 
     get pointsTotal() {
         return this._pointsTotal;
     }
-
-    setDealtCard(dealtCard) {
-        this._dealtCards.push(dealtCard);
-    }
-
-    // setInPlayCard(inPlayCard) {
-    //     this._inPlayCard.push(inPlayCard);
-    // }
-
 }
 
 const newDeck = new Deck();
