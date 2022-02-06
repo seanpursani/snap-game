@@ -99,7 +99,7 @@ class Game {
                     players["2"].awardOrTakePoint(false);
                 }
             }
-            score.innerHTML = `Player 1: ${players["1"].pointsTotal} | ${players["2"].pointsTotal}: Player 2`
+            score.innerHTML = `${players["1"].pointsTotal} - ${players["2"].pointsTotal}`
         })
     }
 }
