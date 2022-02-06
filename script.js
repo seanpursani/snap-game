@@ -3,38 +3,38 @@ class Game {
         this._players = {
             "1": new Player(),
             "2": new Player() }
-        this._deck = deck;
         this._PlayerOneDeck = document.getElementById("deck1").getElementsByClassName("card");
         this._PlayerTwoDeck = document.getElementById("deck2").getElementsByClassName("card");
         this._isPlayerTurn = "true";
-    }
-
-    createCardElement (card, parentContainer) {
-        const cardToGoInDeck = document.createElement("div")
-        cardToGoInDeck.className = `${card.rank}${card.suit}`;
-        cardToGoInDeck.classList.add("card");
-        document.getElementById(parentContainer).appendChild(cardToGoInDeck);
+        this._deck = deck;
+        this.cardDeck = this._deck.cards;
     }
 
     dealCards () {
-        const cardDeck = this._deck.cards;
-        for (let i = 0; i < cardDeck.length; i++) {
+        for (let i = 0; i < this.cardDeck.length; i++) {
             if (this._isPlayerTurn) {
-                this._players["1"].setDealtCard(cardDeck[i]);
-                this.createCardElement(cardDeck[i], "deck1");
+                this._players["1"].setDealtCard(this.cardDeck[i]);
+                this.createDealtCardHTMLElem(this.cardDeck[i], "deck1");
                 this._isPlayerTurn = false;
             } else {
-                this._players["2"].setDealtCard(cardDeck[i]);
-                this.createCardElement(cardDeck[i], "deck2");
+                this._players["2"].setDealtCard(this.cardDeck[i]);
+                this.createDealtCardHTMLElem(this.cardDeck[i], "deck2");
                 this._isPlayerTurn = true;
             }
         }
-        this.createStackEffect(this._PlayerOneDeck, 0.03);
-        this.createStackEffect(this._PlayerTwoDeck, 0.03);
-        this.addClickListener()
+        this.createStackEffectOnDealtCards(this._PlayerOneDeck, 0.03);
+        this.createStackEffectOnDealtCards(this._PlayerTwoDeck, 0.03);
+        this.addClickListenerToEachDealtCard();
     }
 
-    createStackEffect (playerDeckIdName, addMarginBy) {
+    createDealtCardHTMLElem (card, pile) {
+        const cardToGoInDeck = document.createElement("div")
+        cardToGoInDeck.className = `${card.rank}${card.suit}`;
+        cardToGoInDeck.classList.add("card");
+        document.getElementById(pile).appendChild(cardToGoInDeck);
+    }
+
+    createStackEffectOnDealtCards(playerDeckIdName, addMarginBy) {
         const playersDeck = playerDeckIdName;
         let marginNum = 0.05;
         for (let i = 0; i < playersDeck.length; i++) {
@@ -43,27 +43,41 @@ class Game {
         }
     }
 
-    // Loop throguh to add event listeners and do logic
-    addClickListener() {
-        const playerDeck = [...this._PlayerOneDeck]
-        playerDeck.forEach(card => {
+    // Loop through each card in the players deck to add event listeners 
+    addClickListenerToEachDealtCard() {
+        const playerOneDeck = [...this._PlayerOneDeck]
+        const playerTwoDeck = [...this._PlayerTwoDeck]
+        playerOneDeck.forEach(card => {
             card.addEventListener("click", (event) => {
-                console.log(playerDeck);
-                const cardToPlay = document.createElement("div");
-                const cardInfo = card.className.substring(0,2);
-                const cardDeck = this._deck.cards; // MAKE DRY
-                const targetCard = cardDeck.filter(card => card.image.includes(cardInfo));
-                cardToPlay.style.backgroundImage = `url(${targetCard[0].image})`;
-                cardToPlay.className = `${targetCard[0].rank}${targetCard[0].suit}`;
-                cardToPlay.classList.add("inplaycard");
-                document.getElementById("inplay1").appendChild(cardToPlay);
-                playerDeck.pop();
-                console.log(playerDeck);
-                const removeCard = document.getElementsByClassName(cardInfo);
-                console.log(removeCard);
-                removeCard[0].remove();
-            })
+                this.putDownInPlayCard(card, playerOneDeck, "inplay1");
+            })   
         });
+        playerTwoDeck.forEach(card => {
+            card.addEventListener("click", (event) => {
+                this.putDownInPlayCard(card, playerTwoDeck, "inplay2");
+            })   
+        });
+
+    }
+
+    putDownInPlayCard (card, playerDeck, playerInPlayDeck) {
+        // finds the 'clicked' card from the entire deck of cards
+        const cardSuitAndRank = card.className.substring(0,2);
+        console.log(cardSuitAndRank);
+        const cardFromDeck = this.cardDeck.filter(card => card.image.includes(cardSuitAndRank));
+        console.log(cardFromDeck);
+        // 'creates' and 'puts down' the top card from a players deck 
+        const cardToPlay = document.createElement("div");
+        cardToPlay.style.backgroundImage = `url(${cardFromDeck[0].image})`;
+        cardToPlay.className = `${cardFromDeck[0].rank}${cardFromDeck[0].suit}`;
+        cardToPlay.classList.add("inplaycard");
+        console.log(cardToPlay);
+        document.getElementById(playerInPlayDeck).appendChild(cardToPlay);
+        
+        // removes the card from the players deck array, and removes its HTML element
+        playerDeck.pop();
+        const removeCard = document.getElementsByClassName(cardSuitAndRank);
+        removeCard[0].remove(); // removes from players deck, NOT the in-play deck
     }
 }
 
@@ -74,14 +88,13 @@ class Deck {
 
     createDeck() {
         let suits = ['C', 'S', 'H', 'D'];
-        let ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
+        let ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'J', 'Q', 'K']
         for (let i = 0; i < suits.length; i++) {
             for (let j = 0; j < ranks.length; j++) {
                 let image = `https://deckofcardsapi.com/static/img/${ranks[j]}${suits[i]}.png`
                 this._cards.push(new Card(suits[i], ranks[j], image))
             }
         }
-        console.log(this._cards);
     }
 
     shuffleCards() {

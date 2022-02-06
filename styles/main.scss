@@ -23,7 +23,8 @@ body {
 .cards {
     display: flex;
     justify-content: center;
-    gap: 1em;
+    gap: 1.5em;
+    margin-bottom: 4em;
 }
 
 #deck1,
@@ -32,17 +33,9 @@ body {
 #inplay2 {
     position: relative;
     width: 8em;
-    height: 10em;
-    background-color: #ffffff;
-    box-shadow: 0 0.0625em 0.125em rgba(0, 0, 0, 0.15);
-    border-radius: 0.25em;
-    margin: 1em;
+    height: 12em;
+    background-color: #eee;
   }
-
-// #deck1, 
-// #deck2 {
-//     background-image: url("http://www.brainjar.com/css/cards/graphics/cardback.gif");
-// }
 
 .points {
     display: flex;
@@ -56,16 +49,17 @@ body {
 .card {
     position: absolute;
     background-image: url("http://www.brainjar.com/css/cards/graphics/cardback.gif");
-    width: 8em;
+    width: 7.5em;
     height: 10em;
-    background-color: #ffffff;
+    background-color: #eee;
     box-shadow: 0 0.0625em 0.125em rgba(0, 0, 0, 0.15);
     border-radius: 0.25em;
 }
 
 .inplaycard {
     position: absolute;
-    background-size: cover;
-    width: 8em;
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 7.5em;
     height: 10em;
 }
