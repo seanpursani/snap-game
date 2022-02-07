@@ -4,6 +4,7 @@
   padding: 0;
   font-family: 'Architects Daughter', cursive;
   background-color: #eee;
+  color: #03071e;
 }
 
 body {
@@ -34,7 +35,7 @@ body {
       -ms-flex-pack: center;
           justify-content: center;
   gap: 1.5em;
-  margin-bottom: 4em;
+  margin-bottom: 2em;
 }
 
 #deck1,
@@ -47,7 +48,9 @@ body {
   background-color: #eee;
 }
 
-.points {
+#score {
+  background-color: #C32530;
+  color: #eee;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -59,7 +62,7 @@ body {
       -ms-flex-align: center;
           align-items: center;
   height: 10vh;
-  font-size: 1.5em;
+  font-size: 5em;
 }
 
 .card {
@@ -79,5 +82,22 @@ body {
   background-repeat: no-repeat;
   width: 7.5em;
   height: 10em;
+}
+
+.info-text {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 1.2em;
+  margin: 1em 0.2em 1em 0.2em;
+}
+
+.snap-text {
+  font-size: 1.5em;
+  color: #C32530;
 }
 /*# sourceMappingURL=main.css.map */
