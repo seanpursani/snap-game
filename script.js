@@ -10,7 +10,7 @@ class Game {
     }
 
     //Deals Card --> Creates 3d Stack Effect --> Add Click Listener to each Card --> Listen for "Snap"!
-    startGame () {
+    dealCards() {
         for (let i = 0; i < this.cardDeck.length; i++) {
             if (this._isPlayerTurn) {
                 //this._players["1"].setDealtCard(this.cardDeck[i]);
@@ -24,12 +24,12 @@ class Game {
         }
         this.createStackEffectOnDealtCards(this._playerOneDeck, 0.03);
         this.createStackEffectOnDealtCards(this._playerTwoDeck, 0.03);
-        this.addClickListenerToEachDealtCard();
-        this.addSnapListener(this._players);
+        this.clickListenerForEachDealtCard();
+        this.snapListener(this._players);
     }
 
     // Create and append a <div> element based on the dealt card
-    createDealtCardHTMLElem (card, playerDeck) {
+    createDealtCardHTMLElem(card, playerDeck) {
         const cardToGoInDeck = document.createElement("div")
         cardToGoInDeck.className = `${card.rank}${card.suit}`;
         cardToGoInDeck.classList.add("card");
@@ -47,7 +47,7 @@ class Game {
     }
 
     // Loop through each card in each players deck to add an event listener 
-    addClickListenerToEachDealtCard() {
+    clickListenerForEachDealtCard() {
         const playerOneDeck = [...this._playerOneDeck];
         const playerTwoDeck = [...this._playerTwoDeck];
         playerOneDeck.forEach(card => {
@@ -79,36 +79,48 @@ class Game {
         removeCard[0].remove(); // [0] removes the card from players deck, but NOT from the in-play deck
     }
 
-    addSnapListener(players) {
+    snapListener(players) {
         document.addEventListener("keydown", function (event) {
             let score = this.getElementById("score");
             const inPlayDeckPlayerOne = document.getElementById("inplay1").getElementsByClassName("inplaycard");
             const inPlayDeckPlayerTwo = document.getElementById("inplay2").getElementsByClassName("inplaycard");
+            const inPlayDeckPlayerOneArr = [...inPlayDeckPlayerOne];
+            const inPlayDeckPlayerTwoArr = [...inPlayDeckPlayerTwo];
             if (event.key === 'l') {
                 if ((inPlayDeckPlayerOne[inPlayDeckPlayerOne.length-1].className.substring(0,1) === inPlayDeckPlayerTwo[inPlayDeckPlayerTwo.length-1].className.substring(0,1))) {
                     players["1"].awardOrTakePoint(true);
-                    const inPlayDeckPlayerTwoArr = [...inPlayDeckPlayerTwo];
-                    for (let i = 0; i < inPlayDeckPlayerTwoArr.length; i++) {
-                        inPlayDeckPlayerTwoArr[i].classList.replace("inplaycard", "card");
-                        inPlayDeckPlayerTwoArr[i].removeAttribute("style");
-                        document.getElementById("deck1").prepend(inPlayDeckPlayerTwoArr[i]);
-                    }
+                    inPlayDeckPlayerTwoArr.forEach(element => {
+                        element.classList.replace("inplaycard", "card");
+                        element.removeAttribute("style");
+                        document.getElementById("deck1").prepend(element);
+                    });
+                    inPlayDeckPlayerOneArr.forEach(element => {
+                        element.classList.replace("inplaycard", "card");
+                        element.removeAttribute("style");
+                        document.getElementById("deck1").prepend(element);
+                    });
                 } else {
                     players["1"].awardOrTakePoint(false);
                 }
+                this.clickListenerForEachDealtCard();
             }
             if (event.key === 'a') {
                 if ((inPlayDeckPlayerOne[inPlayDeckPlayerOne.length-1].className.substring(0,1) === inPlayDeckPlayerTwo[inPlayDeckPlayerTwo.length-1].className.substring(0,1))) {
                     players["2"].awardOrTakePoint(true);
-                    const inPlayDeckPlayerOneArr = [...inPlayDeckPlayerOne];
-                    for (let i = 0; i < inPlayDeckPlayerOneArr.length; i++) {
-                        inPlayDeckPlayerOneArr[i].classList.replace("inplaycard", "card");
-                        inPlayDeckPlayerOneArr[i].removeAttribute("style");
-                        document.getElementById("deck2").prepend(inPlayDeckPlayerOneArr[i]);
-                    }
+                    inPlayDeckPlayerOneArr.forEach(element => {
+                        element.classList.replace("inplaycard", "card");
+                        element.removeAttribute("style");
+                        document.getElementById("deck2").prepend(element);
+                    });
+                    inPlayDeckPlayerTwoArr.forEach(element => {
+                        element.classList.replace("inplaycard", "card");
+                        element.removeAttribute("style");
+                        document.getElementById("deck2").prepend(element);
+                    });
                 } else {
                     players["2"].awardOrTakePoint(false);
                 }
+                this.clickListenerForEachDealtCard();
             }
             score.innerHTML = `${players["1"].pointsTotal} - ${players["2"].pointsTotal}`
         })
@@ -178,4 +190,4 @@ const newDeck = new Deck();
 newDeck.createDeck();
 newDeck.shuffleCards();
 const newGame = new Game(newDeck);
-newGame.startGame();
+newGame.dealCards();
