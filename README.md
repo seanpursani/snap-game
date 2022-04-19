@@ -31,4 +31,7 @@ OOP in Javascript is very difficult and functional code would have been much mor
 
 ## Known Bugs
 
-When a successful 'snap' has been made, the deck of cards returned to the winning player no longer have event triggers attached to them so they are no longer in play.
+- In the process of fixing the scoring system
+- The main function of 'snapping' is not working at present!
+
+An ongoing project...
