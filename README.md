@@ -1,7 +1,7 @@
 
 # Snap!
 
-Web based JavaScript Video Game Challenge! Welcome to my original concept, with no relation to the original classic card game Snap! This repo is purely for educational purposes only and is written using OOP.
+Web based JavaScript Video Game Challenge! This project is based on the classic card game Snap! This repo is purely for educational purposes only and is written using OOP principles.
 
 This project has been written in:
 
