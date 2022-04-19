@@ -18,15 +18,14 @@ This project has been written in:
 - Ends the game once a player reaches the max amount of points
 
 
-## Screenshots
+## Live Link 
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+https://seanpursani.github.io/snap-game/
 
 
 ## Lessons Learned
 
 OOP in Javascript is very difficult and functional code would have been much more efficient given the small size of the application. However, putting into practice OOP priniciples for the first time was an interesting challenge!
-
 
 
 ## Known Bugs
