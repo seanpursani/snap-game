@@ -14,8 +14,8 @@ This project has been written in:
 
 - Creating, shuffling and dealing playing cards
 - Using DOM event-driven programming when user 'plays' a cards
-- Calculates if a 'snap' is valid and calculating the score based on this
-- Ends the game once a player reaches the max points
+- Calculates if a 'snap' is valid and calculates the score based on this
+- Ends the game once a player reaches the max amount of points
 
 
 ## Screenshots
